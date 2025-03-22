@@ -13,11 +13,13 @@ namespace ADO.NET
 	{
 		static void Main(string[] args)
 		{
-			string cmd;
-			cmd = "SELECT title,release_date,FORMATMESSAGE(N'%s %s', first_name, last_name) AS director FROM Movies, Directors WHERE director=director_id";
-			//cmd = "SELECT * FROM Directors";
-			Connector conn = new Connector(cmd);
-			conn.ReadData();
+			Connector.InsertDirectors("Wachowskis", "Lana and Lily");
+
+			Connector.InsertMovies("The Matrix 2", new DateTime(year: 2003, month: 5, day: 15), "Wachowskis", "Lana and Lily");
+			Connector.SelectDirectors();
+			Connector.SelectMovies();
+		
+		
 		}
 	}
 }
