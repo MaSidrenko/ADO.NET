@@ -31,12 +31,11 @@ namespace ADO.NET
 		{
 			Select("title, release_date, FORMATMESSAGE(N'%s %s', first_name, last_name)", "Movies, Directors", "director=director_id");
 		}
-		public static void Select(string columns, string tables, string condition = "")
+		static void Select(string columns, string tables, string condition = "")
 		{
 
 			try
 			{
-				//string cmd = "SELECT title,release_date,FORMATMESSAGE(N'%s %s', first_name, last_name) AS director FROM Movies, Directors WHERE director=director_id";
 				string cmd = $"SELECT {columns} FROM {tables}";
 				if (condition != "") cmd += $" WHERE {condition}";
 				cmd += ";";
@@ -59,7 +58,6 @@ namespace ADO.NET
 					Console.WriteLine("====================================================================");
 					while (reader.Read())
 					{
-						//Console.WriteLine(reader[0].ToString().PadRight(5) + reader[2].ToString().PadRight(15) + reader[1].ToString());
 						for (int i = 0; i < reader.FieldCount; i++)
 						{
 							Console.Write(reader[i].ToString().PadRight(PADDING));
@@ -77,21 +75,66 @@ namespace ADO.NET
 		}
 		public static void InsertDirector(string first_name, string last_name)
 		{
+			#region OldInsert
+			//try
+			//{
+			//	string cmd = $"INSERT Directors(first_name, last_name) VALUES('{first_name}', '{last_name}')";
+
+			//	SqlCommand command = new SqlCommand(cmd, connection);
+			//	connection.Open();
+			//	command.ExecuteNonQuery();
+
+			//	connection.Close();
+			//}
+			//catch (Exception ex)
+			//{
+			//	Console.WriteLine(ex.Message);
+			//} 
+			#endregion
+
+			Insert("Directors", "first_name, last_name", $"N'{first_name}', N'{last_name}'");
+		}
+		public static void InsertMovie(string title, string release_date, string director)
+		{
+			Insert("Movies", "title, release_date, director", $"N'{title}', N'{release_date}', N'{director}'");
+		}
+		static void Insert(string table, string columns, string values, string key = "")
+		{
 			try
 			{
-				string cmd = $"INSERT Directors(first_name, last_name) VALUES('{first_name}', '{last_name}')";
 
+				if (key == "")
+				{
+					key = table.ToLower();
+
+					key = key.Remove(key.Length - 1, 1) + "_id";
+				}
+				Console.WriteLine(key);
+				string[] all_values = values.Split(',');
+				string[] all_columns = columns.Split(',');
+				string condition = "";
+				for (int i = 0; i < all_columns.Length; i++)
+				{
+					condition += $"{all_columns[i]}={all_values[i]}";
+					if (i != all_columns.Length - 1) condition += " AND ";
+					Console.WriteLine(condition);
+				}
+				string check_string = $"IF NOT EXISTS (SELECT {key} FROM {table} WHERE {condition})";
+
+				string query = $"INSERT {table} ({columns}) VALUES({values})";
+				string cmd = $"{check_string} BEGIN {query} END";
+
+				Console.WriteLine(cmd);
 				SqlCommand command = new SqlCommand(cmd, connection);
+
 				connection.Open();
 				command.ExecuteNonQuery();
-
 				connection.Close();
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex.Message);
 			}
-
 		}
 	}
 
