@@ -13,11 +13,49 @@ namespace Academy
 {
 	public partial class Main : Form
 	{
+		Connector connector;
 		public Main()
 		{
-			Connector connector = new Connector(ConfigurationManager.ConnectionStrings["PV_319_IMPORT"].ConnectionString);
+			connector = new Connector(ConfigurationManager.ConnectionStrings["PV_319_IMPORT"].ConnectionString);
 			InitializeComponent();
-			dgvStudents.DataSource = connector.Select("*", "Students");
+			Filling();
+		}
+		public void Filling()
+		{
+			toolStripStatusLabel.Text = "Количество студентов: " + connector.Count("Students").ToString();
+			dgvStudents.DataSource = connector.Select("FORMATMESSAGE(N'%s %s %s', last_name, first_name, middle_name) AS N'Студент', birth_date AS N'Дата Рождения', group_name AS N'Группа'", "Students, Groups", "[group]=group_id");
+			//dgvStudents.DataSource = connector.Select("*", "Students");
+			dgvGroups.DataSource = connector.Select("group_name AS N'Группа', direction_name AS N'Направление', start_time AS N'Время начала занятий'", "Groups, Directions", "direction=direction_id");
+			//dgvGroups.DataSource = connector.Select("*", "Groups");
+			dgvDirections.DataSource = connector.Select("direction_name AS N'Направление'", "Directions");
+			//dgvDirections.DataSource = connector.Select("*", "Directions");
+
+			dgvDisciplines.DataSource = connector.Select("discipline_name AS N'Название дисциплины', number_of_lessons AS N'Количество занятий'", "Disciplines");
+			//dgvDisciplines.DataSource = connector.Select("*", "Disciplines");
+			dgvTeachers.DataSource = connector.Select("FORMATMESSAGE(N'%s %s %s', last_name, first_name, middle_name) AS 'Преподователь', birth_date AS N'Дата рождения', work_since AS N'Опыт работы', rate AS N'Ставка'", "Teachers");
+			//dgvTeachers.DataSource = connector.Select("*", "Teachers");
+		}
+
+		private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			switch ((sender as TabControl).SelectedIndex)
+			{
+				case 0:
+					toolStripStatusLabel.Text = "Количество студентов: " + connector.Count("Students");
+					break;
+				case 1:
+					toolStripStatusLabel.Text = "Количество групп: " + connector.Count("Groups");
+					break;
+				case 2:
+					toolStripStatusLabel.Text = "Количество направлений: " + connector.Count("Directions");
+					break;
+				case 3:
+					toolStripStatusLabel.Text = "Количество Дисциплин: " + connector.Count("Disciplines");
+					break;
+				case 4:
+					toolStripStatusLabel.Text = "Количество Преподователей: " + connector.Count("Teachers");
+					break;
+			}
 		}
 	}
 }

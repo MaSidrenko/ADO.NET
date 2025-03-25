@@ -73,6 +73,25 @@ namespace Academy
 			}
 			return dataTable;
 		}
+		public int Count(string table)
+		{
+			int count = 0;
+			try
+			{
+				string cmd = $"SELECT COUNT(*) FROM {table}";
+				connection.Open();
+
+				SqlCommand command = new SqlCommand(cmd, connection);
+				count = Convert.ToInt32(command.ExecuteScalar());
+				connection.Close();
+			}
+			catch (Exception ex)
+			{
+				AllocConsole();
+				Console.WriteLine(ex.Message);
+			}
+			return count;
+		}
 		[DllImport("Kernel32.dll")]
 		public static extern bool AllocConsole();
 		[DllImport("Kernel32.dll")]
