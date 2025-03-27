@@ -23,16 +23,21 @@ namespace Academy
 		public void Filling()
 		{
 			toolStripStatusLabel.Text = "Количество студентов: " + connector.Count("Students").ToString();
+			
 			dgvStudents.DataSource = connector.Select("FORMATMESSAGE(N'%s %s %s', last_name, first_name, middle_name) AS N'Студент', birth_date AS N'Дата Рождения', group_name AS N'Группа'", "Students, Groups", "[group]=group_id");
-			//dgvStudents.DataSource = connector.Select("*", "Students");
+			
 			dgvGroups.DataSource = connector.Select("group_name AS N'Группа', direction_name AS N'Направление', start_time AS N'Время начала занятий'", "Groups, Directions", "direction=direction_id");
-			//dgvGroups.DataSource = connector.Select("*", "Groups");
+			
 			dgvDirections.DataSource = connector.Select("direction_name AS N'Направление'", "Directions");
-			//dgvDirections.DataSource = connector.Select("*", "Directions");
-
+			
 			dgvDisciplines.DataSource = connector.Select("discipline_name AS N'Название дисциплины', number_of_lessons AS N'Количество занятий'", "Disciplines");
-			//dgvDisciplines.DataSource = connector.Select("*", "Disciplines");
+			
 			dgvTeachers.DataSource = connector.Select("FORMATMESSAGE(N'%s %s %s', last_name, first_name, middle_name) AS 'Преподователь', birth_date AS N'Дата рождения', work_since AS N'Опыт работы', rate AS N'Ставка'", "Teachers");
+			
+			//dgvStudents.DataSource = connector.Select("*", "Students");
+			//dgvGroups.DataSource = connector.Select("*", "Groups");
+			//dgvDirections.DataSource = connector.Select("*", "Directions");
+			//dgvDisciplines.DataSource = connector.Select("*", "Disciplines");
 			//dgvTeachers.DataSource = connector.Select("*", "Teachers");
 		}
 
@@ -50,10 +55,10 @@ namespace Academy
 					toolStripStatusLabel.Text = "Количество направлений: " + connector.Count("Directions");
 					break;
 				case 3:
-					toolStripStatusLabel.Text = "Количество Дисциплин: " + connector.Count("Disciplines");
+					toolStripStatusLabel.Text = "Количество дисциплин: " + connector.Count("Disciplines");
 					break;
 				case 4:
-					toolStripStatusLabel.Text = "Количество Преподователей: " + connector.Count("Teachers");
+					toolStripStatusLabel.Text = "Количество преподователей: " + connector.Count("Teachers");
 					break;
 			}
 		}

@@ -75,6 +75,7 @@ namespace Academy
 		}
 		public int Count(string table)
 		{
+
 			int count = 0;
 			try
 			{
