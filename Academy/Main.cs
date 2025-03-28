@@ -24,15 +24,15 @@ namespace Academy
 		{
 			toolStripStatusLabel.Text = "Количество студентов: " + connector.Count("Students").ToString();
 			
-			dgvStudents.DataSource = connector.Select("FORMATMESSAGE(N'%s %s %s', last_name, first_name, middle_name) AS N'Студент', birth_date AS N'Дата Рождения', group_name AS N'Группа'", "Students, Groups", "[group]=group_id");
+			dgvStudents.DataSource = connector.Select("FORMATMESSAGE(N'%s %s %s', last_name, first_name, middle_name) AS N'Студент', birth_date AS N'Дата Рождения', group_name AS N'Группа', direction_name AS N'Направление'", "Students, Groups, Directions", "[group]=group_id AND direction=direction_id");
 			
-			dgvGroups.DataSource = connector.Select("group_name AS N'Группа', direction_name AS N'Направление', start_time AS N'Время начала занятий'", "Groups, Directions", "direction=direction_id");
+			//dgvGroups.DataSource = connector.Select("group_name AS N'Группа', direction_name AS N'Направление', start_time AS N'Время начала занятий'", "Groups, Directions", "direction=direction_id");
 			
-			dgvDirections.DataSource = connector.Select("direction_name AS N'Направление'", "Directions");
+			//dgvDirections.DataSource = connector.Select("direction_name AS N'Направление'", "Directions");
 			
-			dgvDisciplines.DataSource = connector.Select("discipline_name AS N'Название дисциплины', number_of_lessons AS N'Количество занятий'", "Disciplines");
+			//dgvDisciplines.DataSource = connector.Select("discipline_name AS N'Название дисциплины', number_of_lessons AS N'Количество занятий'", "Disciplines");
 			
-			dgvTeachers.DataSource = connector.Select("FORMATMESSAGE(N'%s %s %s', last_name, first_name, middle_name) AS 'Преподователь', birth_date AS N'Дата рождения', work_since AS N'Опыт работы', rate AS N'Ставка'", "Teachers");
+			//dgvTeachers.DataSource = connector.Select("FORMATMESSAGE(N'%s %s %s', last_name, first_name, middle_name) AS 'Преподователь', birth_date AS N'Дата рождения', work_since AS N'Опыт работы', rate AS N'Ставка'", "Teachers");
 			
 			//dgvStudents.DataSource = connector.Select("*", "Students");
 			//dgvGroups.DataSource = connector.Select("*", "Groups");
@@ -50,15 +50,19 @@ namespace Academy
 					break;
 				case 1:
 					toolStripStatusLabel.Text = "Количество групп: " + connector.Count("Groups");
+					dgvGroups.DataSource = connector.Select("group_name AS N'Группа', direction_name AS N'Направление', start_time AS N'Время начала занятий'", "Groups, Directions", "direction=direction_id");
 					break;
 				case 2:
 					toolStripStatusLabel.Text = "Количество направлений: " + connector.Count("Directions");
+					dgvDirections.DataSource = connector.Select("direction_name AS N'Направление'", "Directions");
 					break;
 				case 3:
 					toolStripStatusLabel.Text = "Количество дисциплин: " + connector.Count("Disciplines");
+					dgvDisciplines.DataSource = connector.Select("discipline_name AS N'Название дисциплины', number_of_lessons AS N'Количество занятий'", "Disciplines");
 					break;
 				case 4:
 					toolStripStatusLabel.Text = "Количество преподователей: " + connector.Count("Teachers");
+					dgvTeachers.DataSource = connector.Select("FORMATMESSAGE(N'%s %s %s', last_name, first_name, middle_name) AS 'Преподователь', birth_date AS N'Дата рождения', work_since AS N'Опыт работы', rate AS N'Ставка'", "Teachers");
 					break;
 			}
 		}
