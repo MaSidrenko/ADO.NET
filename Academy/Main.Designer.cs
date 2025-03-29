@@ -116,9 +116,9 @@
 			// 
 			this.cbStudentsGroups.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.cbStudentsGroups.FormattingEnabled = true;
-			this.cbStudentsGroups.Location = new System.Drawing.Point(304, 15);
+			this.cbStudentsGroups.Location = new System.Drawing.Point(477, 15);
 			this.cbStudentsGroups.Name = "cbStudentsGroups";
-			this.cbStudentsGroups.Size = new System.Drawing.Size(304, 21);
+			this.cbStudentsGroups.Size = new System.Drawing.Size(131, 21);
 			this.cbStudentsGroups.TabIndex = 2;
 			this.cbStudentsGroups.SelectedIndexChanged += new System.EventHandler(this.cbStudents_SelectedIndexChanged);
 			// 
@@ -129,7 +129,7 @@
 			this.cbDirectionsStudents.FormattingEnabled = true;
 			this.cbDirectionsStudents.Location = new System.Drawing.Point(8, 15);
 			this.cbDirectionsStudents.Name = "cbDirectionsStudents";
-			this.cbDirectionsStudents.Size = new System.Drawing.Size(290, 21);
+			this.cbDirectionsStudents.Size = new System.Drawing.Size(463, 21);
 			this.cbDirectionsStudents.TabIndex = 1;
 			this.cbDirectionsStudents.DropDown += new System.EventHandler(this.cbDirectionsStudents_DropDown);
 			this.cbDirectionsStudents.SelectedIndexChanged += new System.EventHandler(this.cbDirections_SelectedIndexChanged);
